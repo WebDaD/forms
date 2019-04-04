@@ -1,0 +1,9 @@
+{
+  "port": 3000,
+  "database": {
+    "host":"localhost",
+    "database":"forms",
+    "user":"forms",
+    "password":"forms"
+  }
+}
