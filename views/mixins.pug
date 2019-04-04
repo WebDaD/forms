@@ -1,1 +1,41 @@
-mixin textInput(id)
+mixin textInput(id, label, placeholder)
+  .form-group
+    label(for=id)= label
+    input.form-control(type="text" id=id placeholder=placeholder)
+
+mixin selectInput(id, label)
+.form-group
+    label(for=id)= label
+    select.form-control.custom-select(id=id)
+      if block
+        block
+      else
+        option(value="0") No Options provided
+
+mixin multiSelectInput(id, label)
+.form-group
+    label(for=id)= label
+    block
+
+mixin multiSelectInputValue(value, label)
+  .custom-control.custom-checkbox
+    input.custom-control-input(type="checkbox"id=value)
+    label.custom-control-label (for=value)= label
+
+mixin captcha()
+
+mixin submit()
+  .form-group
+    button#submit.btn.btn-block.btn-primary
+
+mixin submittedData(data)
+  table.table.table-striped
+    thead
+      tr
+        th Field
+        th Value
+    tbody
+      each key, value in data
+        tr
+          th= key
+          td= value

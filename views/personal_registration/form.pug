@@ -4,4 +4,13 @@ includes ../mixins.pug
 block form
   h2 Personal Registration Form
   form
-    +textInput("name")
+    +textInput("name", "Name", "Your Name")
+    +textInput("givenName", "Given Name", "Your Given Name")
+    +selectInput("participation", "I will participate as")
+      option(value="observer") Observer
+      option(value="voter") Voter
+    +multiSelectInput("voting", "I will vote here")
+      +multiSelectInputOption("up_to_6", "Up to 6")
+      +multiSelectInputOption("7_non_fiction", "7 non fiction")
+    +captcha
+    +submit
