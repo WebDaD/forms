@@ -18,9 +18,9 @@ mixin multiSelectInput(id, label)
     block
 
 mixin multiSelectInputValue(value, label)
-  .custom-control.custom-checkbox
-    input.custom-control-input(type="checkbox"id=value)
-    label.custom-control-label (for=value)= label
+  .form-check
+    input.form-check-input(type="checkbox"id=value)
+    label.form-check-label (for=value)= label
 
 mixin captcha()
 
