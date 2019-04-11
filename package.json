@@ -4,6 +4,7 @@
   "description": "Forms for the Prix Jeunesse Festival",
   "main": "index.js",
   "scripts": {
+    "postinstall":"echo Set Symlinks here",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

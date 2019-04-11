@@ -1,8 +1,8 @@
 /* global $, window */
-$(document).ready({
+$(document).ready(function () {
   // conditionals
-  $('#participation').on('change', function(){
-    if($('#participation').val() === 'voter') {
+  $('#participation').on('change', function () {
+    if ($('#participation').val() === 'voter') {
       $('#voting').show()
     } else {
       $('#voting').hide()

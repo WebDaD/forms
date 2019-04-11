@@ -1,12 +1,32 @@
-// TODO: express ramp up
+const config = require('./config.json')
 
-// TODO: mysql ramp up
+const mysql = require('mysql')
+const connection = mysql.createConnection(config.database)
+try {
+  //connection.connect()
+} catch (e) {
+  console.error(e)
+  process.exit(5)
+}
+
+const express = require('express')
+const app = express()
+const server = require('http').createServer(app) // TODO: to https!
+
+app.set('view engine', 'pug')
+
+app.use(express.static('static'))
+
+server.listen(config.port)
+console.log('forms running on ' + config.port)
+
+app.get('/form/:slug', function (req, res) {
+  res.render(req.params.slug + '/form')
+})
 
 /* Routes
 
-- GET /form/:slug send form 
-- POST /form/:slug check captcha and write json to table
-- GET /form/:slug/thankyou/:id send thankyou page with data by ID res.render (view, {data: datafrommysqlbyid})
+- POST /form/:slug check captcha and write json to table, send mails, return thankyoupage
 
 PASSPORT!
 - GET /admin/

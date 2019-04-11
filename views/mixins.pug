@@ -4,7 +4,7 @@ mixin textInput(id, label, placeholder)
     input.form-control(type="text" id=id placeholder=placeholder)
 
 mixin selectInput(id, label)
-.form-group
+  .form-group
     label(for=id)= label
     select.form-control.custom-select(id=id)
       if block
@@ -13,20 +13,21 @@ mixin selectInput(id, label)
         option(value="0") No Options provided
 
 mixin multiSelectInput(id, label)
-.form-group
+  .form-group(id=id)
     label(for=id)= label
     block
 
-mixin multiSelectInputValue(value, label)
+mixin multiSelectInputOption(value, label)
   .form-check
-    input.form-check-input(type="checkbox"id=value)
-    label.form-check-label (for=value)= label
+    input.form-check-input(type="checkbox" id=value)
+    label.form-check-label(for=value)= label
 
 mixin captcha()
+  p TODO: captcha here
 
 mixin submit()
   .form-group
-    button#submit.btn.btn-block.btn-primary
+    button#submit.btn.btn-block.btn-primary Absenden
 
 mixin submittedData(data)
   table.table.table-striped

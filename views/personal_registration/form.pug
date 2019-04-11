@@ -1,16 +1,33 @@
 extends ../layout.pug
-includes ../mixins.pug
-
 block form
   h2 Personal Registration Form
   form
+    p TODO: Add required!!!
+    p TODO: Add Validation!!!
     +textInput("name", "Name", "Your Name")
     +textInput("givenName", "Given Name", "Your Given Name")
+    +textInput("job", "Job Title", "Your Job Title")
+    +textInput("department", "Department", "Your Department")
+    p TODO: Organisation
+    p TODO: Street
+    p TODO: City
+    p TODO:  ZIP Code
+    p TODO: Country (Select)
+    p TODO: Phone
+    p TODO: E-Mail
+    p TODO: Arrival Date
+    p TODO: Departure Date
     +selectInput("participation", "I will participate as")
       option(value="observer") Observer
-      option(value="voter") Voter
+      option(value="voter" selected) Voter
     +multiSelectInput("voting", "I will vote here")
       +multiSelectInputOption("up_to_6", "Up to 6")
       +multiSelectInputOption("7_non_fiction", "7 non fiction")
+    p TODO: Involved in Programme
+    p TODO: Deadline
+    p TODO: Link Privacy Policy
+    p TODO: Hidden: Status
     +captcha
     +submit
+block extrascript
+  script(src='/js/personal_registration.js')

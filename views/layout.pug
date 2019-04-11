@@ -1,10 +1,14 @@
+include mixins.pug
+
 doctype html
 html
   head
-
+    link(type='text/css', rel='stylesheet', href='/css/bootstrap.min.css', media='screen,projection')
   body
     .container
       header
       block form
       footer
-    
+    script(src="/js/jquery.min.js")
+    script(src='/js/index.js')
+    block extrascript
