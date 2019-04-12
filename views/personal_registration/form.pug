@@ -4,7 +4,7 @@ block form
   form
     p TODO: Add required!!!
     p TODO: Add Validation!!!
-    +textInput("name", "Name", "Your Name")
+    +textInput("name", "Name", "Your Name", true)
     +textInput("givenName", "Given Name", "Your Given Name")
     +textInput("job", "Job Title", "Your Job Title")
     +textInput("department", "Department", "Your Department")
@@ -14,13 +14,13 @@ block form
     p TODO:  ZIP Code
     p TODO: Country (Select)
     p TODO: Phone
-    p TODO: E-Mail
+    +textInput("email", "E-Mail", "Your E-Mail-Adress", true, false, "email", "Please Enter a valid E-Mail-Adress")
     p TODO: Arrival Date
     p TODO: Departure Date
-    +selectInput("participation", "I will participate as")
+    +selectInput("participation", "I will participate as", true, "", "")
       option(value="observer") Observer
       option(value="voter" selected) Voter
-    +multiSelectInput("voting", "I will vote here")
+    +multiSelectInput("voting", "I will vote here", false, "", "pariticipation=voter")
       +multiSelectInputOption("up_to_6", "Up to 6")
       +multiSelectInputOption("7_non_fiction", "7 non fiction")
       p TODO: all options
@@ -30,5 +30,3 @@ block form
     p TODO: Hidden: Status
     +captcha
     +submit
-block extrascript
-  script(src='/js/personal_registration.js')

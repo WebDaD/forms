@@ -3,12 +3,16 @@ include mixins.pug
 doctype html
 html
   head
-    link(type='text/css', rel='stylesheet', href='/css/bootstrap.min.css', media='screen,projection')
+    link(type='text/css', rel='stylesheet', href='/css/bootstrap.min.css')
+    link(type='text/css', rel='stylesheet', href='/css/main.css')
   body
     .container
       header
+      .alert.alert-secondary
+        span Fields marked 
+        strong(style="color:red;") *
+        span  are required!
       block form
       footer
     script(src="/js/jquery.min.js")
     script(src='/js/index.js')
-    block extrascript

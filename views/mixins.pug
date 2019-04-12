@@ -1,25 +1,27 @@
-mixin textInput(id, label, placeholder)
-  .form-group
+mixin textInput(id, label, placeholder="", required=false, visibleIf=false, validation=false, invalidMessage=false)
+  .form-group(data-visible=visibleIf required=required)
     label(for=id)= label
-    input.form-control(type="text" id=id placeholder=placeholder)
+    input.form-control.formdata(type="text" id=id placeholder=placeholder required=required data-validation=validation)
+    if validation
+      .invalid-feedback= invalidMessage
 
 mixin selectInput(id, label)
   .form-group
     label(for=id)= label
-    select.form-control.custom-select(id=id)
+    select.form-control.custom-select.formdata(id=id)
       if block
         block
       else
         option(value="0") No Options provided
 
-mixin multiSelectInput(id, label)
+mixin multiSelectInput(id, label, visibleIf=false)
   .form-group(id=id)
     label(for=id)= label
     block
 
 mixin multiSelectInputOption(value, label)
   .form-check
-    input.form-check-input(type="checkbox" id=value)
+    input.form-check-input.formdata(type="checkbox" id=value)
     label.form-check-label(for=value)= label
 
 mixin captcha()
