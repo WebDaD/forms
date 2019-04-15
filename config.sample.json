@@ -5,5 +5,7 @@
     "database":"forms",
     "user":"forms",
     "password":"forms"
-  }
+  },
+  "sitekey":"key",
+  "secretkey":"key"
 }

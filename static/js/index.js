@@ -63,11 +63,35 @@ $(document).ready(function () {
   })
 
   $('#submit').click(function () {
-    // TODO: post when all required have date, no class is-invalid is present
-
-    // TODO: POST all data as JSON to Server
-
-    // TODO: if OK, replace form with response (thankyou)
+    let data = {}
+    data.data = {}
+    let ok = true
+    let url = '/form/' + $('#form').val()
+    $('.formdata[required]').each(function () {
+      ok = $(this).val() !== ''
+    })
+    $('.is-invalid').each(function () {
+      ok = false
+    })
+    if (ok) {
+      $('.formdata').each(function () {
+        data.data[$(this).attr('id')] = $(this).val()
+      })
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        success: function (response) {
+          $('form').replaceWith(response)
+        },
+        error: function () {
+          console.error('err')
+          // TODO: display error, keep data
+        }
+      })
+    } else {
+      // TODO: display error
+    }
   })
 })
 

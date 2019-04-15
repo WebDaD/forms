@@ -1,6 +1,5 @@
 extends ../layout.pug
 block form
-  h2 Personal Registration Form
   form
     +textInput("name", "Name", "Your Name", true)
     +textInput("givenName", "Given Name", "Your Given Name", true)
@@ -30,5 +29,5 @@ block form
     +textInput("involved", "Involved in Programme", "Are you involved with a TV programme entered for competition? If yes, what programme")
     .alert.alert-primary REGISTRATION DEADLINE: 30 April 2020
     +hiddenInput("status", "01")
-    +captcha
+    +captcha(sitekey)
     +submit("Absenden")

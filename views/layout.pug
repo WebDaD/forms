@@ -10,10 +10,8 @@ html(lang='en')
   body
     .container
       header
-      .alert.alert-secondary
-        span Fields marked 
-        strong(style="color:red;") *
-        span  are required!
+      h2= title
+      +hiddenInput("form", slug)
       block form
       footer
         a(href="https://prixjeunesse.de/index.php/priva" target="_blank") Privacy Policy

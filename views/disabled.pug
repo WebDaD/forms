@@ -1,0 +1,11 @@
+extends layout.pug
+block form
+  if state === 'inactive'
+    p This Form is not active.
+  if state === 'early'
+    p This form has not yet been published
+  if state === 'late'
+    p This form has been closed
+  p If you feel this is an error, please contact:
+  p
+    a(href="mailto:info@prixjeunesse.de") info@prixjeunesse.de
