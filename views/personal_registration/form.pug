@@ -2,31 +2,34 @@ extends ../layout.pug
 block form
   h2 Personal Registration Form
   form
-    p TODO: Add required!!!
-    p TODO: Add Validation!!!
     +textInput("name", "Name", "Your Name", true)
-    +textInput("givenName", "Given Name", "Your Given Name")
-    +textInput("job", "Job Title", "Your Job Title")
-    +textInput("department", "Department", "Your Department")
-    p TODO: Organisation
-    p TODO: Street
-    p TODO: City
-    p TODO:  ZIP Code
-    p TODO: Country (Select)
-    p TODO: Phone
+    +textInput("givenName", "Given Name", "Your Given Name", true)
+    +textInput("job", "Job Title", "Your Job Title", true)
     +textInput("email", "E-Mail", "Your E-Mail-Adress", true, false, "email", "Please Enter a valid E-Mail-Adress")
-    p TODO: Arrival Date
-    p TODO: Departure Date
-    +selectInput("participation", "I will participate as", true, "", "")
+    hr
+    +textInput("organisation", "Organisation", "Your Organisation", true)
+    +textInput("street", "Street", "Street of your Organisation")
+    +textInput("zip", "ZIP Code", "ZIP Code of your Organisation")
+    +textInput("city", "City", "City of your Organisation", true)
+    +selectInputCountry("country", "Country", true)
+    +textInput("department", "Department", "Your Department")
+    +textInput("phone", "Phone Number", "Your Phone Number")
+    hr
+    +dateInput("arrival", "Arrival Date")
+    +dateInput("departure", "Departure Date")
+    hr
+    +selectInput("participation", "I will participate as", true)
       option(value="observer") Observer
       option(value="voter" selected) Voter
-    +multiSelectInput("voting", "I will vote here", false, "", "pariticipation=voter")
-      +multiSelectInputOption("up_to_6", "Up to 6")
-      +multiSelectInputOption("7_non_fiction", "7 non fiction")
-      p TODO: all options
-    p TODO: Involved in Programme
-    p TODO: Deadline
-    p TODO: Link Privacy Policy
-    p TODO: Hidden: Status
+    +multiSelectInput("voting", "I will vote here", "participation=voter")
+      +multiSelectInputOption("11_15_Fiction", "11 – 15: Fiction")
+      +multiSelectInputOption("11_15_Non-Fiction", "11 – 15: Non-Fiction")
+      +multiSelectInputOption("7_10_Fiction ", "7 – 10: Fiction ")
+      +multiSelectInputOption("7_10_Non-Fiction ", "7 – 10: Non-Fiction ")
+      +multiSelectInputOption("Up_to_6_Fiction ", "Up to 6: Fiction ")
+      +multiSelectInputOption("Up_to_6_Non-Fiction ", "Up to 6: Non-Fiction ")
+    +textInput("involved", "Involved in Programme", "Are you involved with a TV programme entered for competition? If yes, what programme")
+    .alert.alert-primary REGISTRATION DEADLINE: 30 April 2020
+    +hiddenInput("status", "01")
     +captcha
-    +submit
+    +submit("Absenden")

@@ -2,7 +2,7 @@
 $(document).ready(function () {
   // TODO: activate datetime fields eg
 
-  // TODO: switch switchable fields on change
+  // switch switchable fields on change
   $('[data-visible]').each(function () {
     var self = $(this)
     var control = self.data('visible').split('=')[0]
@@ -42,7 +42,7 @@ $(document).ready(function () {
   })
 
   $('#submit').click(function () {
-    // TODO: check required
+    // TODO: post when all required have date, no class is-invalid is present
 
     // TODO: POST all data as JSON to Server
 
