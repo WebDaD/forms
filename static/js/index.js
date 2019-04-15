@@ -1,6 +1,27 @@
 /* global $ */
 $(document).ready(function () {
-  // TODO: activate datetime fields eg
+  // activate datetime fields (min max)
+  $('.datepicker-here').each(function () {
+    var self = $(this)
+    if (self.data('mymindate')) {
+      if (self.data('mymindate') === 'today') {
+        self.datepicker({ minDate: new Date() })
+      } else if (self.data('mymindate').startsWith('#')) {
+        self.datepicker({ minDate: $(self.data('mymindate')).datepicker().data('datepicker').selectedDates[0] })
+      } else {
+        self.datepicker({ minDate: new Date(self.data('mymindate')) })
+      }
+    }
+    if (self.data('mymaxdate')) {
+      if (self.data('mymaxdate') === 'today') {
+        self.datepicker({ maxDate: new Date() })
+      } else if (self.data('mymaxdate').startsWith('#')) {
+        self.datepicker({ maxDate: $(self.data('mymaxdate')).datepicker().data('datepicker').selectedDates[0] })
+      } else {
+        self.datepicker({ maxDate: new Date(self.data('mymaxdate')) })
+      }
+    }
+  })
 
   // switch switchable fields on change
   $('[data-visible]').each(function () {

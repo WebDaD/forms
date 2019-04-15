@@ -15,8 +15,7 @@ block form
     +textInput("department", "Department", "Your Department")
     +textInput("phone", "Phone Number", "Your Phone Number")
     hr
-    +dateInput("arrival", "Arrival Date")
-    +dateInput("departure", "Departure Date")
+    +dateInputRange("stay", "Your Stay Dates", "dd/mm/yyyy", "2019-04-10", "2019-04-23")
     hr
     +selectInput("participation", "I will participate as", true)
       option(value="observer") Observer

@@ -4,12 +4,13 @@
   "description": "Forms for the Prix Jeunesse Festival",
   "main": "index.js",
   "scripts": {
-    "postinstall":"echo Set Symlinks here",
+    "postinstall": "echo Set Symlinks here",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "air-datepicker": "^2.2.3",
     "angular": "^1.7.8",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",

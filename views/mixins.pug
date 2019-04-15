@@ -5,8 +5,18 @@ mixin textInput(id, label, placeholder="", required=false, visibleIf=false, vali
     if validation
       .invalid-feedback= invalidMessage
 
-mixin dateInput(id, label, format="d/m/Y", minDate="today", maxDate=false, required=false, visibleIf=false)
-  p TODO: DATEINPUT HERE
+mixin dateInput(id, label, format="dd/mm/yyyy", minDate=false, maxDate=false, required=false, visibleIf=false)
+  .form-group(data-visible=visibleIf required=required)
+    label(for=id)= label
+    input.form-control.formdata.datepicker-here(type="text" id=id placeholder=placeholder required=required data-validation=validation data-language="en" data-date-format=format data-mymindate=minDate data-mymaxdate=maxDate)
+    if validation
+      .invalid-feedback= invalidMessage
+mixin dateInputRange(id, label, format="dd/mm/yyyy", minDate=false, maxDate=false, required=false, visibleIf=false)
+  .form-group(data-visible=visibleIf required=required)
+    label(for=id)= label
+    input.form-control.formdata.datepicker-here(type="text" id=id placeholder=placeholder required=required data-validation=validation data-language="en" data-date-format=format data-mymindate=minDate data-mymaxdate=maxDate data-range=true data-multiple-dates-separator=" - ")
+    if validation
+      .invalid-feedback= invalidMessage
 
 mixin selectInput(id, label, required=false, visibleIf=false)
   .form-group(data-visible=visibleIf required=required)
@@ -280,8 +290,8 @@ mixin multiSelectInputOption(value, label)
 mixin hiddenInput(id, value)
   input.formdata(type="hidden" id=id value=value)
 
-mixin captcha()
-  p TODO: captcha here
+mixin captcha(sitekey)
+  .g-recaptcha(data-sitekey=sitekey)
 
 mixin submit(label)
   .form-group
