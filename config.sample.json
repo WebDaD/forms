@@ -7,5 +7,16 @@
     "password":"forms"
   },
   "sitekey":"key",
-  "secretkey":"key"
+  "secretkey":"key",
+  "mailformto":"some-email-adress",
+  "mailer": {
+    "host": "smtp.gmail.com",
+    "port": 465,
+    "secure": true,
+    "auth": {
+        "user": "xxx@xx.com",
+        "pass": "xxxx"
+    }
+  },
+  "mailfrom":"Name <email>"
 }
