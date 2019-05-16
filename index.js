@@ -23,6 +23,27 @@ let mailOptions = {
 const moment = require('moment')
 const request = require('request-promise')
 
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+
+passport.use(new LocalStrategy(
+  function (username, password, done) { // TODO: database here!
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err) }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' })
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' })
+      }
+      return done(null, user)
+    })
+  }
+))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.set('view engine', 'pug')
 
 app.use(express.static('static'))
@@ -92,4 +113,31 @@ app.post('/form/:slug', async function (req, res) {
       res.status(500).json(error)
     }
   }
+})
+
+app.post('/admin/login',
+  passport.authenticate('local', { successRedirect: '/admin/',
+    failureRedirect: '/admin/login',
+    failureFlash: true })
+)
+app.get('/admin/login', function (req, res) {
+  res.render('admin/login')
+})
+app.get('/admin/', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+  res.render('admin/index')
+})
+app.get('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+  res.render('admin/index') // TODO: render form
+})
+app.put('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+  res.render('admin/index') // TODO: update form, response status
+})
+app.get('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+  res.render('admin/index') // TODO: render resultID
+})
+app.put('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+  res.render('admin/index') // TODO: update result, response status
+})
+app.get('/admin/:formSlug/:resultID/print', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+  res.render('admin/index') // TODO: show print view
 })
