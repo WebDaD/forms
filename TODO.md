@@ -1,14 +1,12 @@
 # TODOs
 
-- Server to HTTPS!! https://contextneutral.com/story/creating-an-https-server-with-nodejs-and-express //optional!
+- create keys: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout private.key -out cert.crt
 
 - Mails testen: localmail start
 
-- Logo, Name, Farben
-
-- Colors: 
-Main #c0392b
-Highlight #f39c12
+- Colors
+- Main #c0392b
+- Highlight #f39c12
 
 ## User
 
@@ -17,8 +15,7 @@ Highlight #f39c12
 
 ## Admin
 
-- login page (change logo, css and js links, display error)
-- index Page as dashboard
+- index Page as dashboard (show Forms, submissions, last 24 Hour, last 7 days, link)
 - results Table of Results, Button Disable
 - DetailView of one Result, allow update, print
 

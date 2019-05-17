@@ -1,5 +1,6 @@
 /* global $ */
 $(document).ready(function () {
+  $('#error').hide()
   $('#login').click(function () {
     $.ajax({
       type: 'POST',
@@ -14,8 +15,8 @@ $(document).ready(function () {
       document.cookie = 'ftoken=' + response
       window.location.replace('/admin/')
     }).fail(function (error) {
-      console.error(error)
-      // TODO: display error
+      console.error(error.responseJSON.error)
+      $('#error').text(error.responseJSON.error).show()
     })
   })
 })

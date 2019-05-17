@@ -6,6 +6,12 @@
     "user":"forms",
     "password":"forms"
   },
+  "https": {
+    "active":true,
+    "key":"private.key",
+    "cert":"cert.csr",
+    "port":3001
+  },
   "sitekey":"key",
   "secretkey":"key",
   "mailformto":"some-email-adress",

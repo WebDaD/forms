@@ -1,4 +1,12 @@
 extends layout.pug
 block adminview
-  h1 Admin Page
-  p Forms here (with numbers)
+  h1 Dashboard
+  table.table.table-striped.table-borderless
+    thead
+      tr
+        th Form
+        th Submissions (last 24h)
+        th Submissions (last 7d)
+        th Submissions (total)
+        th
+    tbody

@@ -6,7 +6,11 @@ const connection = pool.promise()
 
 const express = require('express')
 const app = express()
-const server = require('http').createServer(app) // TODO: to https!
+const server = require('http').createServer(app)
+
+if (config.https) {
+
+}
 
 const nodeMailer = require('nodemailer')
 
@@ -38,6 +42,26 @@ app.use(function (req, res, next) {
   console.log(Date.now() + ': ' + req.method + ' ' + req.url)
   next()
 })
+
+if (config.https.active) {
+  var fs = require('fs')
+  var key = fs.readFileSync(config.https.key)
+  var cert = fs.readFileSync(config.https.cert)
+  var options = {
+    key: key,
+    cert: cert
+  }
+  var https = require('https')
+  https.createServer(options, app).listen(config.https.port)
+  console.log('forms running SECURE on ' + config.https.port)
+  app.use(function (req, res, next) {
+    if (req.secure) {
+      next()
+    } else {
+      res.redirect('https://' + req.headers.host.replace(config.port, config.https.port) + req.url)
+    }
+  })
+}
 
 async function isLoggedIn (req, res, next) {
   req.token = req.query.token || req.header.token || req.cookies.ftoken
@@ -114,8 +138,8 @@ app.post('/admin/login', async function (req, res) {
   try {
     let token = await login.login(req.body.username, req.body.password)
     res.status(200).json(token)
-  } catch (e) {
-    res.status(401).json(e)
+  } catch (error) {
+    res.status(401).json({ error: error.message })
   }
 })
 
