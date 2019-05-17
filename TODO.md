@@ -15,7 +15,9 @@
 
 ## Admin
 
-- index Page as dashboard (show Forms, submissions, last 24 Hour, last 7 days, link)
+--> Forms -> General!
+
+- index Page as dashboard (show Forms, submissions, last 24 Hour, last 7 days, link) --> SQL
 - results Table of Results, Button Disable
 - DetailView of one Result, allow update, print
 
@@ -23,4 +25,4 @@
 
 ## Forms
 
-- Add all the Forms
+- Add the other forms like personal_registration

@@ -1,4 +1,19 @@
-h2 Submissions - Personal Registration
+h1 Submissions - Personal Registration
 p Form Settings here
 hr
-p Submission Table here
+table.table.table-striped.table-borderless
+  thead
+    tr
+      th ID
+      th Timestamp
+      th Name
+      th E-Mail
+      th
+  tbody
+    tr(ng-repeat="submission in ctrl.submissions")
+      td {{submission.id}}
+      td {{submission.timestamp}}
+      td {{submission.json.name}}
+      td {{submission.json.email}}
+      td
+        a.btn.btn-link(ng-href="/admin/#!/personal_registration/{{submission.id}}") Details

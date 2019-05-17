@@ -1,0 +1,17 @@
+h1 Dashboard
+table.table.table-striped.table-borderless
+  thead
+    tr
+      th Form
+      th Submissions (last 24h)
+      th Submissions (last 7d)
+      th Submissions (total)
+      th
+  tbody
+    tr(ng-repeat="form in ctrl.forms")
+      td {{form.form}}
+      td {{form.subs_24}}
+      td {{form.subs_7}}
+      td {{form.subs_total}}
+      td
+        a.btn.btn-link(ng-href="/admin/#!/{{form.slug}}") Details

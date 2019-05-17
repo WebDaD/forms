@@ -8,10 +8,6 @@ const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
 
-if (config.https) {
-
-}
-
 const nodeMailer = require('nodemailer')
 
 const transporter = nodeMailer.createTransport(config.mailer)
@@ -64,8 +60,7 @@ if (config.https.active) {
 }
 
 async function isLoggedIn (req, res, next) {
-  req.token = req.query.token || req.header.token || req.cookies.ftoken
-  console.log(login.isLoggedIn(req.token))
+  req.token = req.query.token || req.headers.token || req.cookies.ftoken
   if (login.isLoggedIn(req.token)) {
     next()
   } else {
@@ -154,6 +149,9 @@ app.get('/admin/login', function (req, res) {
 app.get('/admin/', isLoggedIn, function (req, res) {
   res.render('admin/index')
 })
+app.get('/admin/dashboard', isLoggedIn, function (req, res) {
+  res.render('admin/views/dashboard')
+})
 app.get('/admin/:formSlug', isLoggedIn, async function (req, res) {
   try {
     let results = await connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"')
@@ -184,4 +182,45 @@ app.get('/admin/:formSlug/:resultID/print', isLoggedIn, async function (req, res
   } catch (error) {
     res.status(500).json(error)
   }
+})
+
+app.get('/api/dashboard', isLoggedIn, function (req, res) {
+  res.json([
+    {
+      form: 'Personal Registration',
+      subs_24: 10,
+      subs_7: 100,
+      subs_total: 1000,
+      slug: 'personal_registration'
+    },
+    {
+      form: 'Test 2',
+      subs_24: 20,
+      subs_7: 140,
+      subs_total: 2540,
+      slug: 'test-2'
+    }
+  ])
+  // TODO: Form name, submissions (24h, 7d, total), form slug
+})
+app.get('/api/submissions/:slug', isLoggedIn, function (req, res) {
+  res.json([
+    {
+      id: '2',
+      timestamp: '2019-10-21T12:00:00',
+      json: {
+        name: 'test',
+        email: 'email@test.de'
+      }
+    },
+    {
+      id: '3',
+      timestamp: '2019-10-21T14:00:00',
+      json: {
+        name: 'test2',
+        email: 'emai22l@test.de'
+      }
+    }
+  ])
+  // TODO: get id, timestamp, json for slug
 })
