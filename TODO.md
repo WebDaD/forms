@@ -2,7 +2,9 @@
 
 - Server to HTTPS!! https://contextneutral.com/story/creating-an-https-server-with-nodejs-and-express //optional!
 
-- Mails testen: https://www.npmjs.com/package/maildev
+- Mails testen: localmail start
+
+- Logo, Name, Farben
 
 ## User
 
@@ -11,8 +13,7 @@
 
 ## Admin
 
-- Add Passport (local strategy)
-- login page
+- login page (change logo, colors, css and js links, display error)
 - index Page as dashboard
 - results Table of Results, Button Disable
 - DetailView of one Result, allow update, print

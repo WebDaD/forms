@@ -1,13 +1,8 @@
 const config = require('./config.json')
 
-const mysql = require('mysql')
-const connection = mysql.createConnection(config.database)
-try {
-  connection.connect()
-} catch (e) {
-  console.error(e)
-  process.exit(5)
-}
+const mysql = require('mysql2')
+const pool = mysql.createPool(config.database)
+const connection = pool.promise()
 
 const express = require('express')
 const app = express()
@@ -23,26 +18,8 @@ let mailOptions = {
 const moment = require('moment')
 const request = require('request-promise')
 
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-
-passport.use(new LocalStrategy(
-  function (username, password, done) { // TODO: database here!
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err) }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' })
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' })
-      }
-      return done(null, user)
-    })
-  }
-))
-
-app.use(passport.initialize())
-app.use(passport.session())
+const Login = require('./lib/login.js')
+let login = Login(connection)
 
 app.set('view engine', 'pug')
 
@@ -51,8 +28,27 @@ app.use(express.static('static'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 server.listen(config.port)
 console.log('forms running on ' + config.port)
+
+app.use(function (req, res, next) {
+  console.log(Date.now() + ': ' + req.method + ' ' + req.url)
+  next()
+})
+
+async function isLoggedIn (req, res, next) {
+  req.token = req.query.token || req.header.token || req.cookies.ftoken
+  console.log(req.token)
+  console.log(login.isLoggedIn(req.token))
+  if (login.isLoggedIn(req.token)) {
+    next()
+  } else {
+    res.redirect('/admin/login')
+  }
+}
 
 app.get('/form/:slug', function (req, res) {
   connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"', function (error, results) {
@@ -115,18 +111,27 @@ app.post('/form/:slug', async function (req, res) {
   }
 })
 
-app.post('/admin/login',
-  passport.authenticate('local', { successRedirect: '/admin/',
-    failureRedirect: '/admin/login',
-    failureFlash: true })
-)
+app.post('/admin/login', async function (req, res) {
+  try {
+    let token = await login.login(req.body.username, req.body.password)
+    res.status(200).json(token)
+  } catch (e) {
+    res.status(401).json(e)
+  }
+})
+
+app.get('/admin/logout', isLoggedIn, async function (req, res) {
+  login.logout(req.token)
+  res.redirect('/admin/login')
+})
+
 app.get('/admin/login', function (req, res) {
   res.render('admin/login')
 })
-app.get('/admin/', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+app.get('/admin/', isLoggedIn, function (req, res) {
   res.render('admin/index')
 })
-app.get('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), async function (req, res) {
+app.get('/admin/:formSlug', isLoggedIn, async function (req, res) {
   try {
     let results = await connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"')
     res.render('admin/views/' + req.params.formSlug + '/index', { data: results })
@@ -135,10 +140,10 @@ app.get('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/
   }
 })
 
-app.put('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+app.put('/admin/:formSlug', isLoggedIn, function (req, res) {
   res.status(200) // TODO: update form settings, response status
 })
-app.get('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), async function (req, res) {
+app.get('/admin/:formSlug/:resultID', isLoggedIn, async function (req, res) {
   try {
     let results = await connection.query('SELECT f.name, r.id, r.form_id, r.json, r.entry_datetime FROM forms f, results r WHERE f.id = r.form_id AND r.id=' + req.params.resultID + ' AND f.slug="' + req.params.slug + '"')
     res.render('admin/views/' + req.params.formSlug + '/details', { data: results })
@@ -146,10 +151,10 @@ app.get('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRe
     res.status(500).json(error)
   }
 })
-app.put('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
+app.put('/admin/:formSlug/:resultID', isLoggedIn, function (req, res) {
   res.status(200) // TODO: update result, response status
 })
-app.get('/admin/:formSlug/:resultID/print', passport.authenticate('local', { failureRedirect: '/admin/login' }), async function (req, res) {
+app.get('/admin/:formSlug/:resultID/print', isLoggedIn, async function (req, res) {
   try {
     let results = await connection.query('SELECT f.name AS form_name, r.id, r.form_id, r.json, r.entry_datetime FROM forms f, results r WHERE f.id = r.form_id AND r.id=' + req.params.resultID + ' AND f.slug="' + req.params.slug + '"')
     res.render('admin/views/' + req.params.formSlug + '/print', { data: results })
