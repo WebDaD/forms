@@ -41,7 +41,6 @@ app.use(function (req, res, next) {
 
 async function isLoggedIn (req, res, next) {
   req.token = req.query.token || req.header.token || req.cookies.ftoken
-  console.log(req.token)
   console.log(login.isLoggedIn(req.token))
   if (login.isLoggedIn(req.token)) {
     next()

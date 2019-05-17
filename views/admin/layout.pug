@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+  head
+    link(type='text/css', rel='stylesheet', href='/css/bootstrap.min.css')
+    link(type='text/css', rel='stylesheet', href='/css/admin.css')
+    link(rel="apple-touch-icon", sizes="180x180", href="/apple-touch-icon.png")
+    link(rel="icon", type="image/png", sizes="32x32", href="/favicon-32x32.png")
+    link(rel="icon", type="image/png", sizes="16x16", href="/favicon-16x16.png")
+    link(rel="manifest", href="/site.webmanifest")
+    link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#c0392b")
+    meta(name="msapplication-TileColor", content="#c0392b")
+    meta(name="theme-color", content="#c0392b")
+    title Forms :: Admin
+  body
+    .container
+      nav.navbar.navbar-expand-lg
+        a.navbar-brand(href="/admin")
+          img.d-inline-block.align-top(src="/android-chrome-192x192.png" width="30" height="30")
+          span Forms
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href="/admin/") Dashboard
+          li.nav-item
+            a.nav-link(href="/admin/personal_registration") Personal Registration
+      block adminview
