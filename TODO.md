@@ -1,6 +1,8 @@
 # TODOs
 
-- Server to HTTPS!!
+- Server to HTTPS!! https://contextneutral.com/story/creating-an-https-server-with-nodejs-and-express //optional!
+
+- Mails testen: https://www.npmjs.com/package/maildev
 
 ## User
 
