@@ -126,18 +126,34 @@ app.get('/admin/login', function (req, res) {
 app.get('/admin/', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
   res.render('admin/index')
 })
-app.get('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
-  res.render('admin/index') // TODO: render form
+app.get('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), async function (req, res) {
+  try {
+    let results = await connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"')
+    res.render('admin/views/' + req.params.formSlug + '/index', { data: results })
+  } catch (error) {
+    res.status(500).json(error)
+  }
 })
+
 app.put('/admin/:formSlug', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
-  res.render('admin/index') // TODO: update form, response status
+  res.status(200) // TODO: update form settings, response status
 })
-app.get('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
-  res.render('admin/index') // TODO: render resultID
+app.get('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), async function (req, res) {
+  try {
+    let results = await connection.query('SELECT f.name, r.id, r.form_id, r.json, r.entry_datetime FROM forms f, results r WHERE f.id = r.form_id AND r.id=' + req.params.resultID + ' AND f.slug="' + req.params.slug + '"')
+    res.render('admin/views/' + req.params.formSlug + '/details', { data: results })
+  } catch (error) {
+    res.status(500).json(error)
+  }
 })
 app.put('/admin/:formSlug/:resultID', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
-  res.render('admin/index') // TODO: update result, response status
+  res.status(200) // TODO: update result, response status
 })
-app.get('/admin/:formSlug/:resultID/print', passport.authenticate('local', { failureRedirect: '/admin/login' }), function (req, res) {
-  res.render('admin/index') // TODO: show print view
+app.get('/admin/:formSlug/:resultID/print', passport.authenticate('local', { failureRedirect: '/admin/login' }), async function (req, res) {
+  try {
+    let results = await connection.query('SELECT f.name AS form_name, r.id, r.form_id, r.json, r.entry_datetime FROM forms f, results r WHERE f.id = r.form_id AND r.id=' + req.params.resultID + ' AND f.slug="' + req.params.slug + '"')
+    res.render('admin/views/' + req.params.formSlug + '/print', { data: results })
+  } catch (error) {
+    res.status(500).json(error)
+  }
 })
