@@ -152,6 +152,7 @@ app.get('/admin/', isLoggedIn, function (req, res) {
 app.get('/admin/dashboard', isLoggedIn, function (req, res) {
   res.render('admin/views/dashboard')
 })
+
 app.get('/admin/:formSlug', isLoggedIn, async function (req, res) {
   try {
     let results = await connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"')

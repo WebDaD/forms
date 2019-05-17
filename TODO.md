@@ -15,7 +15,8 @@
 
 ## Admin
 
---> Forms -> General!
+- navigation mark active
+- navigation dynamic
 
 - index Page as dashboard (show Forms, submissions, last 24 Hour, last 7 days, link) --> SQL
 - results Table of Results, Button Disable

@@ -8,10 +8,12 @@
           controllerAs: 'ctrl',
           templateUrl: '/admin/dashboard'
         })
-        .when('/personal_registration', {
-          controller: 'forms-personal_registration',
+        .when('/:form', {
+          controller: 'forms-form',
           controllerAs: 'ctrl',
-          templateUrl: '/admin/personal_registration'
+          templateUrl: function ($routeParams) {
+            return '/admin/' + $routeParams.form
+          }
         })
         .otherwise({ redirectTo: '/' })
     }])
