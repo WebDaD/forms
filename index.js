@@ -68,13 +68,20 @@ async function isLoggedIn (req, res, next) {
   }
 }
 
-app.get('/form/:slug', function (req, res) {
-  connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"', function (error, results) {
-    if (error) {
-      res.status(501).json(error)
+app.get('/form/:slug', async function (req, res) {
+  try {
+    let results = await connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"')
+    if (results[0] && results[0].length === 1) {
+      let form = results[0]
+      
     } else {
-      if (results.length !== 1) {
-        res.status(404).render('404')
+      res.status(404).render('404')
+    }
+  } catch (error) {
+    res.status(501).json(error)
+  }
+  
+
       } else {
         if (results[0].active === 0) {
           res.render('disabled', { state: 'inactive' })
