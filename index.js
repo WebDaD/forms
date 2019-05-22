@@ -73,30 +73,23 @@ app.get('/form/:slug', async function (req, res) {
     let results = await connection.query('SELECT name, active, active_from, active_to FROM forms WHERE slug="' + req.params.slug + '"')
     if (results[0] && results[0].length === 1) {
       let form = results[0]
-      
+      if (form.active === 0) {
+        return res.render('disabled', { state: 'inactive' })
+      }
+      if (moment(results[0].active_from).isAfter(moment())) {
+        return res.render('disabled', { state: 'early' })
+      }
+      if (moment(results[0].active_to).isBefore(moment())) {
+        return res.render('disabled', { state: 'late' })
+      }
+      let resultFields = await connection.query('SELECT `type`, `label`, `name`‚,`required` ,`visibleIf`,`validation` ,`invalidMessage` ,`additional` FROM form_fields WHERE form_id=' + form.id + ' ORDER BY order ASC') // TODO: Query to get fields for the form, order by order
+      return res.render('form', { title: results[0].name, sitekey: config.sitekey, slug: req.params.slug, fields: resultFields[0] })
     } else {
-      res.status(404).render('404')
+      return res.status(404).render('404')
     }
   } catch (error) {
     res.status(501).json(error)
   }
-  
-
-      } else {
-        if (results[0].active === 0) {
-          res.render('disabled', { state: 'inactive' })
-        } else {
-          if (moment(results[0].active_from).isAfter(moment())) {
-            res.render('disabled', { state: 'early' })
-          } else if (moment(results[0].active_to).isBefore(moment())) {
-            res.render('disabled', { state: 'late' })
-          } else {
-            res.render(req.params.slug + '/form', { title: results[0].name, sitekey: config.sitekey, slug: req.params.slug })
-          }
-        }
-      }
-    }
-  })
 })
 
 app.post('/form/:slug', async function (req, res) {
@@ -110,15 +103,17 @@ app.post('/form/:slug', async function (req, res) {
       if (body.success !== undefined && !body.success) {
         return res.status(400).json({ 'responseCode': 1, 'responseDesc': 'Failed captcha verification' })
       } else {
-        let results = await connection.query('SELECT id, name FROM forms WHERE slug="' + req.params.slug + '"')
+        let results = await connection.query('SELECT id, name, thank_you FROM forms WHERE slug="' + req.params.slug + '"')
         if (results.length !== 1) {
           res.status(500).json(results)
         } else {
           let id = results[0].id
           let name = results[0].name
+          let thankyou = results[0].thankyou
           let json = JSON.parse(req.body.date)
           await connection.query('INSERT INTO results (form_id, json) VALUES (' + id + ', "' + JSON.stringify(json) + '")')
-          mailOptions.text = 'eq.body.body' // TODO: plain text body
+          mailOptions.text = 'eq.body.body' // TODO: plain text body <- strip html tags from html body
+          // TODO: HTML body from database
           if (json.email) {
             mailOptions.subject = 'Your Data for ' + name
             mailOptions.to = json.email
@@ -127,7 +122,7 @@ app.post('/form/:slug', async function (req, res) {
           mailOptions.subject = 'New Entry for ' + name
           mailOptions.to = config.mailformto
           await transporter.sendMail(mailOptions)
-          res.render(req.params.slug + '/form', { title: name, data: json })
+          res.render('thankyou', { title: name, data: json, message: thankyou })
         }
       }
     } catch (error) {

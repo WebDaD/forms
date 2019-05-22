@@ -4,6 +4,8 @@
 
 - Mails testen: localmail start
 
+- Forms testen
+
 - Colors
 - Main #c0392b
 - Highlight #f39c12
@@ -22,10 +24,8 @@
 - results Table of Results, Button Disable
 - DetailView of one Result, allow update, print
 
-- Userverwaltung?
+- Userverwaltung? -> Nein, nur eine Anleitung für mich
 
 ## Forms
 
-- Forms from database
-
-- Add the other forms like personal_registration
+- Add the other forms (data.sql)

@@ -1,0 +1,49 @@
+include mixins.pug
+
+doctype html
+html(lang='en')
+  head
+    link(type='text/css', rel='stylesheet', href='/css/bootstrap.min.css')
+    link(type='text/css', rel='stylesheet', href='/css/datepicker.min.css')
+    link(type='text/css', rel='stylesheet', href='/css/main.css')
+    script(src='https://www.google.com/recaptcha/api.js')
+  body
+    .container
+      header
+      h2= title
+      form
+        +hiddenInput("form", slug)
+        each field in fields
+          case field.type
+            when 'text'
+              +textInput(field.name, field.label, field.label, field.required, field.visibleIf, field.validation, field.invalidMessage)
+            when 'date'
+              +dateInput(field.name, field.label, field.additional.format, field.additional.minDate, field.additional.maxDate, field.required, field.visibleIf)
+            when 'dateRange'
+              +dateInputRange(field.name, field.label, field.additional.format, field.additional.minDate, field.additional.maxDate, field.required, field.visibleIf)
+            when 'select'
+              +selectInput(field.name, field.label, field.required, field.visibleIf)
+                each option in field.additional.options
+                  option(value=option.value selected=option.selected)= option.label
+            when 'selectcountry'
+              +selectInputCountry(field.name, field.label, field.required, field.visibleIf)
+            when 'multiSelect'
+              +multiSelectInput(field.name, field.label, field.visibleIf)
+                each option in field.additional.options
+                  +multiSelectInputOption(option.value, option.label)
+            when 'hidden'
+              +hiddenInput(field.name, field.additional.value)
+            when 'submit'
+              +submit(field.label)
+            when 'captcha'
+              +captcha(sitekey)
+            when 'hr'
+              hr
+            when 'html'
+              !{field.label}
+      footer
+        a(href="https://prixjeunesse.de/index.php/priva" target="_blank") Privacy Policy
+    script(src="/js/jquery.min.js")
+    script(src="/js/datepicker.min.js")
+    script(src="/js/datepicker.en.js")
+    script(src='/js/index.js')
