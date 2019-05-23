@@ -25,6 +25,7 @@
 - DetailView of one Result, allow update, print
 
 - Userverwaltung? -> Nein, nur eine Anleitung für mich
+- User -> Passwort-Change erlauben
 
 ## Forms
 

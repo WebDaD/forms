@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS  `forms`.`forms` (
   `active_from` DATETIME NULL,
   `active_to` DATETIME NULL,
   `thank_you` TEXT NOT NULL DEFAULT '<p>Thank you for Sending the Form</p>',
+  `mail_subject` VARCHAR(255) NOT NULL DEFAULT 'Thank you for your Submission!',
+  `mail` TEXT NOT NULL DEFAULT '<p>Hello,</p><p>Thank you for your Submission</p><p>Here are the Data you entered:</p>%DATA%<p>Best Regards,</p>',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `slug_UNIQUE` (`slug` ASC) VISIBLE
 )

@@ -1,5 +1,5 @@
 /* Personal registration */
-INSERT INTO `forms`.`forms` (`name`, `slug`, `active`, `active_from`, `active_to`, `thank_you`) 
+INSERT INTO `forms`.`forms` (`name`, `slug`, `active`, `active_from`, `active_to`, `thank_you`, `mail_subject`, `mail`) 
 VALUES ('Personal Registration', 'personal_registration', '1', '2019-05-17T08:00:00', '2020-05-17T08:00:00', '<p>You are now registered!</p><p>This Data has been submitted to your E-Mail-Adress and was saved in our Database.</p><a href="https://join.slack.com/t/prixjeunesse/shared_invite/enQtNTk2MTEyMzA3MzQ0LTYxYTI2ZTczNzJkNWFkMDEwZGU0MDA2ZjM0Y2Y4NjQ2YzNiM2YzMGQ4MmU5MTVmMTY1YWFhMThmMmIwMzY1NGI" target="_blank">Feel free to Register to our Slack for more Communucation!</a>');
 
 /* Fields */
